@@ -84,15 +84,10 @@
   NSString *link = [NSString stringWithFormat:@"https://www.omdbapi.com/?s=%@&y=&plot=short&r=json",str];
   
    NSURL *URL = [NSURL URLWithString:link];
-  NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-  AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-  NSURLRequest *request = [NSURLRequest requestWithURL:URL];
- 
-  NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-    if (error) {
-      NSLog(@"Error: %@", error);
-      [_hud hideAnimated:NO];
-      [_hud showAnimated:NO];
+  AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+  
+  [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
+    if ([[responseObject objectForKey:@"Response"] isEqualToString:@"False"]) {
       UIAlertController * alert=   [UIAlertController
                                     alertControllerWithTitle:@"An error has occurred!"
                                     message:@"Please check your internet connection."
@@ -131,15 +126,15 @@
       [_hud hideAnimated:NO];
       [_hud showAnimated:NO];
     }
-  } ];
+  }
+       failure:^(NSURLSessionTask *operation, NSError *error) {
+         NSLog(@"Error: %@", error);
+       }];
   //Show Loading:
   _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
   _hud.label.text = @"Loading";
   [_hud hideAnimated:YES];
   [_hud showAnimated:YES];
-  //call afnetwork in dataTask
-  [dataTask resume];
-  //[mSearchBar setUserInteractionEnabled:NO];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -151,15 +146,10 @@
     if(_actualPage<=_totalPages){
       NSString *link = [NSString stringWithFormat:@"https://www.omdbapi.com/?s=%@&page=%d",_search,_actualPage];
       NSURL *URL = [NSURL URLWithString:link];
-      NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-      AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-      NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+      AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
       
-      NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        if (error) {
-          NSLog(@"Error: %@", error);
-          [_hud hideAnimated:NO];
-          [_hud showAnimated:NO];
+      [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"Response"] isEqualToString:@"False"]) {
           UIAlertController * alert=   [UIAlertController
                                         alertControllerWithTitle:@"An error has occurred!"
                                         message:@"Please check your internet connection."
@@ -196,14 +186,15 @@
           [_hud hideAnimated:NO];
           [_hud showAnimated:NO];
         }
-      }];
+      }
+           failure:^(NSURLSessionTask *operation, NSError *error) {
+             NSLog(@"Error: %@", error);
+           }];
       //Show Loading:
       _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
       _hud.label.text = @"Loading";
       [_hud hideAnimated:YES];
       [_hud showAnimated:YES];
-      //call afnetwork in dataTask
-      [dataTask resume];
     }
   }
 }

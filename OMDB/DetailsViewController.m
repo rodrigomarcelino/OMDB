@@ -24,15 +24,10 @@
   NSLog(@"\n\nID: %@\n\n", imdbID);
   NSString *link = [NSString stringWithFormat:@"https://www.omdbapi.com/?i=%@&plot=short&r=json",imdbID];
   NSURL *URL = [NSURL URLWithString:link];
-  NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-  AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-  NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+  AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
   
-  NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-    if (error) {
-      NSLog(@"Error: %@", error);
-      [_hud hideAnimated:NO];
-      [_hud showAnimated:NO];
+  [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
+    if ([[responseObject objectForKey:@"Response"] isEqualToString:@"False"]) {
       UIAlertController * alert=   [UIAlertController
                                     alertControllerWithTitle:@"An error has occurred!"
                                     message:@"Please check your internet connection."
@@ -71,20 +66,15 @@
       [_hud hideAnimated:NO];
       [_hud showAnimated:NO];
     }
+  }
+    failure:^(NSURLSessionTask *operation, NSError *error) {
+    NSLog(@"Error: %@", error);
   }];
   //Show loading
   _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
   _hud.label.text = @"Loading";
   [_hud hideAnimated:YES];
   [_hud showAnimated:YES];
-  //Call function afnetwork dataTask
-  [dataTask resume];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning {
