@@ -22,6 +22,7 @@
 		E0AAAA911E30E356001B3383 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0AAAA901E30E356001B3383 /* Assets.xcassets */; };
 		E0AAAA941E30E356001B3383 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0AAAA921E30E356001B3383 /* LaunchScreen.storyboard */; };
 		E0AF3EEA1E4368E700BFF4B0 /* SavedDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0AF3EE91E4368E700BFF4B0 /* SavedDetailsViewController.m */; };
+		E0E9E2021E549E620069AEC4 /* FilmManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E0E9E1FE1E549E620069AEC4 /* FilmManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,8 @@
 		E0AAAA951E30E356001B3383 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0AF3EE81E4368E700BFF4B0 /* SavedDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SavedDetailsViewController.h; path = OMDB/SavedDetailsViewController.h; sourceTree = "<group>"; };
 		E0AF3EE91E4368E700BFF4B0 /* SavedDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SavedDetailsViewController.m; path = OMDB/SavedDetailsViewController.m; sourceTree = "<group>"; };
+		E0E9E1FD1E549E620069AEC4 /* FilmManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilmManager.h; sourceTree = "<group>"; };
+		E0E9E1FE1E549E620069AEC4 /* FilmManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilmManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,13 +128,11 @@
 		E0AAAA831E30E356001B3383 /* OMDB */ = {
 			isa = PBXGroup;
 			children = (
-				E097D2891E44E7ED008E593D /* folder.png */,
-				E097D2871E44E56C008E593D /* icon-find.png */,
+				E0E9E1FA1E549E130069AEC4 /* Service */,
+				E0E9E1F91E549E070069AEC4 /* StoryBoards */,
+				E0E9E1F81E549DFB0069AEC4 /* Images */,
 				E09D44441E44B207006F1563 /* Model */,
 				E09D44431E44B1CA006F1563 /* Controller */,
-				E0AAAA8D1E30E356001B3383 /* Main.storyboard */,
-				E0AAAA901E30E356001B3383 /* Assets.xcassets */,
-				E0AAAA951E30E356001B3383 /* Info.plist */,
 				E0AAAA841E30E356001B3383 /* Supporting Files */,
 			);
 			path = OMDB;
@@ -140,12 +141,40 @@
 		E0AAAA841E30E356001B3383 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E0AAAA921E30E356001B3383 /* LaunchScreen.storyboard */,
+				E0AAAA951E30E356001B3383 /* Info.plist */,
+				E0AAAA901E30E356001B3383 /* Assets.xcassets */,
 				E0AAAA871E30E356001B3383 /* AppDelegate.h */,
 				E0AAAA881E30E356001B3383 /* AppDelegate.m */,
 				E0AAAA851E30E356001B3383 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E0E9E1F81E549DFB0069AEC4 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				E097D2891E44E7ED008E593D /* folder.png */,
+				E097D2871E44E56C008E593D /* icon-find.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		E0E9E1F91E549E070069AEC4 /* StoryBoards */ = {
+			isa = PBXGroup;
+			children = (
+				E0AAAA8D1E30E356001B3383 /* Main.storyboard */,
+				E0AAAA921E30E356001B3383 /* LaunchScreen.storyboard */,
+			);
+			name = StoryBoards;
+			sourceTree = "<group>";
+		};
+		E0E9E1FA1E549E130069AEC4 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				E0E9E1FD1E549E620069AEC4 /* FilmManager.h */,
+				E0E9E1FE1E549E620069AEC4 /* FilmManager.m */,
+			);
+			name = Service;
 			sourceTree = "<group>";
 		};
 		F12436AA2CC3BC139B09B267 /* Frameworks */ = {
@@ -285,6 +314,7 @@
 				E004882F1E38DEF60005F33C /* FilmCell.m in Sources */,
 				E09AD5541E3F7D3100E0497E /* DetailsViewController.m in Sources */,
 				E0AAAA891E30E356001B3383 /* AppDelegate.m in Sources */,
+				E0E9E2021E549E620069AEC4 /* FilmManager.m in Sources */,
 				E0AF3EEA1E4368E700BFF4B0 /* SavedDetailsViewController.m in Sources */,
 				E00488321E38E1B50005F33C /* Film.m in Sources */,
 				E00AB6991E32284800620A5B /* SearchViewController.m in Sources */,

@@ -11,6 +11,7 @@
 #import "AFNetworking.h"
 #import "DetailsViewController.h"
 #import "SavedViewController.h"
+#import "FilmManager.h"
 
 
 @interface SearchViewController ()
@@ -22,7 +23,7 @@
 @synthesize mSearchBar;
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
   mSearchBar.delegate = self;//Delegate data
   self.mSearchBar.placeholder = @"Search films";
   self.actualPage = 0;
@@ -47,6 +48,7 @@
   
   FilmCell *cell = (FilmCell *)[tableView dequeueReusableCellWithIdentifier:@"FilmCell"];
   Film *film = (self.films)[indexPath.row];
+  NSLog(@"\n%@",film.title);
   cell.title.text = film.title;
   cell.year.text = film.year;
   if([film.posterURL  isEqualToString:@"N/A"])  {
@@ -58,7 +60,7 @@
                                                               withString:@"https:"];
     NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:str]];
     cell.poster.image = [UIImage imageWithData: imageData];
-     cell.poster.contentMode = UIViewContentModeScaleAspectFit;
+    cell.poster.contentMode = UIViewContentModeScaleAspectFit;
   }
   return cell;
 }
@@ -75,66 +77,24 @@
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
   
   [mSearchBar resignFirstResponder];
-  //exchange every "space" for "+"
-  NSString *str = [searchBar.text stringByReplacingOccurrencesOfString:@" "
-                                                            withString:@"+"];
-  NSLog(@"\n\nString New:%@",str);
-  _search = str;
-  //Network:
-  NSString *link = [NSString stringWithFormat:@"https://www.omdbapi.com/?s=%@&y=&plot=short&r=json",str];
+  [[FilmManager sharedInstance] getFilmWithName:self.mSearchBar.text ?: @"" success:^(NSMutableArray* films1) {
+    
+    NSLog(@"25\n%@",films1);
+    films = films1;
+    [_mTableView reloadData];;
+    
+  } failure:^(NSError *error) {
+    NSLog(@"Error: %@", error);
+  }];
   
-   NSURL *URL = [NSURL URLWithString:link];
-  AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-  
-  [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
-    if ([[responseObject objectForKey:@"Response"] isEqualToString:@"False"]) {
-      UIAlertController * alert=   [UIAlertController
-                                    alertControllerWithTitle:@"An error has occurred!"
-                                    message:@"Please check your internet connection."
-                                    preferredStyle:UIAlertControllerStyleAlert];
-      UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
-                                                 handler:^(UIAlertAction * action) {
-                                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                                 }];
-      
-      [alert addAction:Ok];
-      [self presentViewController:alert animated:YES completion:nil];
-      
-    } else {
-     self.actualPage = 1;
-     // NSLog(@"\n\nfilms:%@", responseObject);
-      films = [[NSMutableArray alloc]init];
-      NSDictionary *resultDictinary = [responseObject objectForKey:@"Search"];
-      int totalResults = [[responseObject objectForKey:@"totalResults"] intValue];
-      _totalPages = ceil(totalResults/10);
-      NSLog(@"\n%@",responseObject);
-      for (NSDictionary *filmDictionary in resultDictinary)
-      {
-        Film *newFilm=[[Film alloc]initWithDictionary:filmDictionary];
-        [films addObject:newFilm];
-      }
-      if(films.count == 0){
-        UILabel *noDataLabel         = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _mTableView.bounds.size.width, _mTableView.bounds.size.height)];
-        noDataLabel.text             = @"No results";
-        noDataLabel.textColor        = [UIColor blackColor];
-        noDataLabel.textAlignment    = NSTextAlignmentCenter;
-      }else{
-        _mTableView.backgroundView = nil;
-        
-      }
       [_mTableView reloadData];
       [_hud hideAnimated:NO];
       [_hud showAnimated:NO];
-    }
-  }
-       failure:^(NSURLSessionTask *operation, NSError *error) {
-         NSLog(@"Error: %@", error);
-       }];
-  //Show Loading:
-  _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-  _hud.label.text = @"Loading";
-  [_hud hideAnimated:YES];
-  [_hud showAnimated:YES];
+  //Show Loading:1
+ // _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+  //_hud.label.text = @"Loading";
+  //[_hud hideAnimated:YES];
+  //[_hud showAnimated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -144,52 +104,12 @@
     //Network:
     self.actualPage += 1;
     if(_actualPage<=_totalPages){
-      NSString *link = [NSString stringWithFormat:@"https://www.omdbapi.com/?s=%@&page=%d",_search,_actualPage];
-      NSURL *URL = [NSURL URLWithString:link];
-      AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-      
-      [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
-        if ([[responseObject objectForKey:@"Response"] isEqualToString:@"False"]) {
-          UIAlertController * alert=   [UIAlertController
-                                        alertControllerWithTitle:@"An error has occurred!"
-                                        message:@"Please check your internet connection."
-                                        preferredStyle:UIAlertControllerStyleAlert];
-          UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
-                                                     handler:^(UIAlertAction * action) {
-                                                       [alert dismissViewControllerAnimated:YES completion:nil];
-                                                     }];
-          
-          [alert addAction:Ok];
-          [self presentViewController:alert animated:YES completion:nil];
-          
-        } else {
-          NSDictionary *resultDictinary = [responseObject objectForKey:@"Search"];
-          for (NSDictionary *filmDictionary in resultDictinary)
-          {
-            Film *newFilm=[[Film alloc]initWithDictionary:filmDictionary];
-            [films addObject:newFilm];
-          }
-          if(films.count == 0){
-            UILabel *noDataLabel         = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _mTableView.bounds.size.width, _mTableView.bounds.size.height)];
-            noDataLabel.text             = @"No results";
-            noDataLabel.textColor        = [UIColor blackColor];
-            noDataLabel.textAlignment    = NSTextAlignmentCenter;
-            UIAlertController * alert=   [UIAlertController
-                                          alertControllerWithTitle:@"Incorrect name!"
-                                          message:@"No results."
-                                          preferredStyle:UIAlertControllerStyleAlert];
-          }else{
-            _mTableView.backgroundView = nil;
-            
-          }
+     // films = [[FilmManager sharedInstance]getFilmWithName:self.mSearchBar.text ?: @"" ];
+      NSLog(@"3\n%@",films);
           [_mTableView reloadData];
           [_hud hideAnimated:NO];
           [_hud showAnimated:NO];
-        }
-      }
-           failure:^(NSURLSessionTask *operation, NSError *error) {
-             NSLog(@"Error: %@", error);
-           }];
+
       //Show Loading:
       _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
       _hud.label.text = @"Loading";
@@ -204,8 +124,8 @@
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    //Transfer your information for next screen
-    if ([segue.identifier isEqualToString:@"ShowDetails"]) {
+  //Transfer your information for next screen
+  if ([segue.identifier isEqualToString:@"ShowDetails"]) {
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
     DetailsViewController *destViewController = segue.destinationViewController;
     Film *film = (self.films)[indexPath.row];

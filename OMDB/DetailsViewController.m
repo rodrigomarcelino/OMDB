@@ -9,6 +9,7 @@
 #import "DetailsViewController.h"
 #import "AFNetworking.h"
 #import "RLMFilm.h"
+#import "FilmManager.h"
 
 @interface DetailsViewController ()
 
@@ -20,12 +21,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-  
   NSLog(@"\n\nID: %@\n\n", imdbID);
   NSString *link = [NSString stringWithFormat:@"https://www.omdbapi.com/?i=%@&plot=short&r=json",imdbID];
   NSURL *URL = [NSURL URLWithString:link];
   AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-  
   [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
     if ([[responseObject objectForKey:@"Response"] isEqualToString:@"False"]) {
       UIAlertController * alert=   [UIAlertController
@@ -36,7 +35,6 @@
                                                  handler:^(UIAlertAction * action) {
                                                    [alert dismissViewControllerAnimated:YES completion:nil];
                                                  }];
-      
       [alert addAction:Ok];
       [self presentViewController:alert animated:YES completion:nil];
     } else {
@@ -51,7 +49,6 @@
       self.plotLabel.text = self.film.plot;
       self.typeLabel.text = self.film.type;
       self.imdbRatingLabel.text = self.film.imdbRating;
-      
       //Get not-found image:
       if([self.film.posterURL isEqualToString:@"N/A"]){
         NSString *str = @"https://az853139.vo.msecnd.net/static/images/not-found.png";
@@ -81,48 +78,28 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
  }
+
 - (IBAction)favorite:(id)sender {
   //If save film is clicked
   UIAlertController * alert=   [UIAlertController
                                 alertControllerWithTitle:@"Favorite Film"
                                 message:@"Want to add this film to your favorites?"
                                 preferredStyle:UIAlertControllerStyleAlert];
-  
   UIAlertAction* save = [UIAlertAction actionWithTitle:@"Save" style:UIAlertActionStyleDefault
                                                handler:^(UIAlertAction * action) {
-                                                
-                                                 RLMRealm *realm = [RLMRealm defaultRealm];
-                                                 RLMFilm *information = [[RLMFilm alloc] init];
-                                                 information.title=film.title;
-                                                 information.year=film.year;
-                                                 information.imdbRating=film.imdbRating;
-                                                 information.plot=film.plot;
-                                                 information.posterURL=film.posterURL;
-                                                 information.director=film.director;
-                                                 information.genre=film.genre;
-                                                 information.runtime=film.runtime;
-                                                 information.imdbID=film.imdbID;
-                                                 information.poster = film.poster;
-                                                 RLMResults<RLMFilm *> *someDogs = [RLMFilm objectsWhere:@"imdbID = %@",film.imdbID];
+                                      NSUInteger i=  [[FilmManager sharedInstance] Favorite:film];
                                                  // Check if the film is already saved
-                                                 if(someDogs.firstObject == nil){
-                                                   [realm beginWriteTransaction];
-                                                   [realm addObject:information];
-                                                   [realm commitWriteTransaction];
-                                                 }else{
-                                                   [self back:1];
+                                                 if(i==1){
+                                                  [self back:1];
                                                  }
-                                                 
                                                  [self back:0];
                                                }];
   UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
                                                  handler:^(UIAlertAction * action) {
                                                    [alert dismissViewControllerAnimated:YES completion:nil];
                                                  }];
-  
   [alert addAction:cancel];
   [alert addAction:save];
-  
   [self presentViewController:alert animated:YES completion:nil];
 }
 -(void) alert{
@@ -135,13 +112,10 @@
                                              handler:^(UIAlertAction * action) {
                                                [self back:0];
                                              }];
-  
   [alert addAction:Ok];
-  
   [self presentViewController:alert animated:YES completion:nil];
 }
 -(void) back:(int)id{
-  
   if(id==1){
     //If film is already saved show message
     [self alert];
