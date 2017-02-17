@@ -59,12 +59,6 @@
   return 0;
 }
 
-// Removes the film from the library
-- (void)Delete:(Film *)film{
-  
-  
-}
-
 - (NSURLSessionDataTask *)getFilmWithName:(NSString *)title success:(void (^)(NSMutableArray* f))success failure:(void (^)(NSError *error))failure {
   //exchange every "space" for "+"
   NSString *str = [title stringByReplacingOccurrencesOfString:@" "
@@ -105,22 +99,6 @@
        failure:^(NSURLSessionTask *operation, NSError *error) {
          NSLog(@"Error: %@", error);
        }];
-}
-
-// Returns a list of films whose key contains the given string
-- (NSMutableArray*)searchFilmsWithKey:(NSString*)text{
-  NSString *key = [[text lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""];
-  
-  NSMutableArray *results = [[NSMutableArray alloc] init];
-  
-  for(int i = 0; i < [_films count]; i++){
-    RLMFilm *m = [_films objectAtIndex:i];
-    // if([m.key containsString:key])
-    //    [results addObject:m];
-  }
-  
-  return results;
-  
 }
 
 @end

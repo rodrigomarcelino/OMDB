@@ -19,10 +19,7 @@
 
 + (id)sharedInstance;
 - (int)Favorite:(Film *)film;
-- (void)Delete:(Film *)film;
 - (NSURLSessionDataTask *)getFilmWithName:(NSString *)title success:(void (^)(NSMutableArray* films))success failure:(void (^)(NSError *error))failure;
 
-
-- (NSMutableArray*)searchMoviesWithKey:(NSString*)text;
 
 @end
