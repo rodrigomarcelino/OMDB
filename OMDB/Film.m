@@ -28,7 +28,7 @@
     self.imdbRating = [sourceDictionary objectForKey:@"imdbRating"];
     self.imdbID = [sourceDictionary objectForKey:@"imdbID"];
     self.type = [sourceDictionary objectForKey:@"Type"];
-  }
+    }
   return self;
 }
 

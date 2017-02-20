@@ -19,7 +19,8 @@
 
 + (id)sharedInstance;
 - (int)Favorite:(Film *)film;
-- (NSURLSessionDataTask *)getFilmWithName:(NSString *)title success:(void (^)(NSMutableArray* films))success failure:(void (^)(NSError *error))failure;
+- (NSURLSessionDataTask *)getFilmWithName:(NSString *)title success:(void (^)(NSMutableArray* films, int totalpages))success failure:(void (^)(NSError *error))failure;
+- (NSURLSessionDataTask *)getFilmWithPage:(NSString *)title :(int)actualpage success:(void (^)(NSMutableArray* f))success failure:(void (^)(NSError *error))failure;
 
 
 @end

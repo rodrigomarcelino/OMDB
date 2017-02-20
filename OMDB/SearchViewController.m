@@ -26,7 +26,7 @@
   [super viewDidLoad];
   mSearchBar.delegate = self;//Delegate data
   self.mSearchBar.placeholder = @"Search films";
-  self.actualPage = 0;
+  self.currentPage = 0;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -77,24 +77,30 @@
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
   
   [mSearchBar resignFirstResponder];
-  [[FilmManager sharedInstance] getFilmWithName:self.mSearchBar.text ?: @"" success:^(NSMutableArray* films1) {
+  //exchange every "space" for "+"
+  NSString *str = [mSearchBar.text stringByReplacingOccurrencesOfString:@" "
+                                                   withString:@"+"];
+  _search = str;
+  
+  [[FilmManager sharedInstance] getFilmWithName:self.mSearchBar.text ?: @"" success:^(NSMutableArray* films1, int totalpages) {
     
-    NSLog(@"25\n%@",films1);
     films = films1;
-    [_mTableView reloadData];;
+    _totalPages = totalpages;
+    self.currentPage = 1;
+    
+    [_mTableView reloadData];
+    [_hud hideAnimated:NO];
+    [_hud showAnimated:NO];
     
   } failure:^(NSError *error) {
     NSLog(@"Error: %@", error);
   }];
-  
-      [_mTableView reloadData];
-      [_hud hideAnimated:NO];
-      [_hud showAnimated:NO];
+
   //Show Loading:1
- // _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-  //_hud.label.text = @"Loading";
-  //[_hud hideAnimated:YES];
-  //[_hud showAnimated:YES];
+  _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+  _hud.label.text = @"Loading";
+  [_hud hideAnimated:YES];
+  [_hud showAnimated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -102,19 +108,25 @@
   NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
   if ((indexPath.section == lastSectionIndex) && (indexPath.row == lastRowIndex)) {
     //Network:
-    self.actualPage += 1;
-    if(_actualPage<=_totalPages){
-     // films = [[FilmManager sharedInstance]getFilmWithName:self.mSearchBar.text ?: @"" ];
+    self.currentPage += 1;
+    if(_currentPage<=_totalPages){
+     /* [[FilmManager sharedInstance] getFilmWithPage:_search :_currentPage success:^(NSMutableArray* films1){
+        films = films1;
       NSLog(@"3\n%@",films);
+        
           [_mTableView reloadData];
           [_hud hideAnimated:NO];
           [_hud showAnimated:NO];
+        
+      } failure:^(NSError *error) {
+        NSLog(@"Error: %@", error);
+      }];
 
       //Show Loading:
       _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
       _hud.label.text = @"Loading";
       [_hud hideAnimated:YES];
-      [_hud showAnimated:YES];
+      [_hud showAnimated:YES];*/
     }
   }
 }

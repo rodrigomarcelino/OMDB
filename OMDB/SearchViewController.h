@@ -15,7 +15,7 @@
 @property (nonatomic, strong) NSMutableArray *films;
 @property (weak, nonatomic) IBOutlet UISearchBar *mSearchBar;
 @property NSString *search;
-@property (nonatomic) int actualPage;
+@property (nonatomic) int currentPage;
 @property (nonatomic) int totalPages;
 @property (nonatomic) int totalResults;
 @property (strong, nonatomic) IBOutlet UITableView *mTableView;
