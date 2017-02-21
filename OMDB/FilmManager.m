@@ -16,6 +16,7 @@
   if(!self) return nil;
   
   _films = [[NSMutableArray alloc] init];
+  _movieImages = [[NSMutableDictionary alloc] init];
   
   return self;
 }
@@ -68,25 +69,36 @@
   return [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
     if ([[responseObject objectForKey:@"Response"] isEqualToString:@"False"]) {
       NSLog(@"Error!");
+      success(NULL, 0);
           } else {
       _films = [[NSMutableArray alloc]init];
       
       NSDictionary *resultDictinary = [responseObject objectForKey:@"Search"];
       int totalResults = [[responseObject objectForKey:@"totalResults"] intValue];
       int totalPages = ceil(totalResults/10);
-      //NSLog(@"\n%@",responseObject);
+      NSLog(@"\n%@",responseObject);
       for (NSDictionary *filmDictionary in resultDictinary)
       {
         Film *newFilm=[[Film alloc]initWithDictionary:filmDictionary];
+        if([newFilm.posterURL  isEqualToString:@"N/A"])  {
+          // If the film has no picture add not-found image
+        UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://filmesonlinegratis.club/uploads/posts/2016-06/1466777116_1459367668_no_poster.png"]]];
+          [_movieImages setObject:image forKey:newFilm.imdbID];
+        }else{
+          //exchang every "http:" for "https:"
+          NSString *str = [newFilm.posterURL stringByReplacingOccurrencesOfString:@"http:"
+                                                                       withString:@"https:"];
+          UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:str]]];
+          [_movieImages setObject:image forKey:newFilm.imdbID];
+        }
         [_films addObject:newFilm];
       }
       success(_films, totalPages);
-      NSLog(@"1\n%@",_films);
       
     }
   }
        failure:^(NSURLSessionTask *operation, NSError *error) {
-         NSLog(@"Error: %@", error);
+         failure(NULL);
        }];
 }
 
@@ -102,22 +114,55 @@
       _films = [[NSMutableArray alloc]init];
       
       NSDictionary *resultDictinary = [responseObject objectForKey:@"Search"];
-      int totalResults = [[responseObject objectForKey:@"totalResults"] intValue];
-      NSUInteger totalPages = ceil(totalResults/10);
-      //NSLog(@"\n%@",responseObject);
+      NSLog(@"\n%@",responseObject);
       for (NSDictionary *filmDictionary in resultDictinary)
       {
+        
         Film *newFilm=[[Film alloc]initWithDictionary:filmDictionary];
+        if([newFilm.posterURL  isEqualToString:@"N/A"])  {
+          // If the film has no picture add not-found image
+          UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://filmesonlinegratis.club/uploads/posts/2016-06/1466777116_1459367668_no_poster.png"]]];
+          [_movieImages setObject:image forKey:newFilm.imdbID];
+        }else{
+          //exchang every "http:" for "https:"
+          NSString *str = [newFilm.posterURL stringByReplacingOccurrencesOfString:@"http:"
+                                                                    withString:@"https:"];
+          
+          UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:str]]];
+          [_movieImages setObject:image forKey:newFilm.imdbID];
+        }
         [_films addObject:newFilm];
       }
       success(_films);
-      NSLog(@"1\n%@",_films);
       
     }
   }
               failure:^(NSURLSessionTask *operation, NSError *error) {
                 NSLog(@"Error: %@", error);
               }];
+}
+
+// Returns an image for the given key
+- (UIImage*)imageForKey:(NSString*)imdbID{
+  return [_movieImages objectForKey:imdbID];
+}
+
+- (NSURLSessionDataTask *)getFilmWithID:(NSString *)imdbID success:(void (^)(Film* f))success failure:(void (^)(NSError *error))failure{
+      NSString *link = [NSString stringWithFormat:@"https://www.omdbapi.com/?i=%@&plot=short&r=json",imdbID];
+      NSURL *URL = [NSURL URLWithString:link];
+      AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+      return [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
+          if ([[responseObject objectForKey:@"Response"] isEqualToString:@"False"]) {
+            success(NULL);
+                                               }
+       else {
+   Film* film = [[Film alloc]initWithDictionary:responseObject];
+    success (film);
+    }
+      }
+     failure:^(NSURLSessionTask *operation, NSError *error) {
+       NSLog(@"Error: %@", error);
+     }];
 }
 
 @end

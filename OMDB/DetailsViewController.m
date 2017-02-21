@@ -22,11 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
   NSLog(@"\n\nID: %@\n\n", imdbID);
-  NSString *link = [NSString stringWithFormat:@"https://www.omdbapi.com/?i=%@&plot=short&r=json",imdbID];
-  NSURL *URL = [NSURL URLWithString:link];
-  AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-  [manager GET:URL.absoluteString parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
-    if ([[responseObject objectForKey:@"Response"] isEqualToString:@"False"]) {
+  [[FilmManager sharedInstance] getFilmWithID:imdbID success:^(Film* f) {
+    if (f==NULL) {
       UIAlertController * alert=   [UIAlertController
                                     alertControllerWithTitle:@"An error has occurred!"
                                     message:@"Please check your internet connection."
@@ -38,7 +35,7 @@
       [alert addAction:Ok];
       [self presentViewController:alert animated:YES completion:nil];
     } else {
-      film = [[Film alloc]initWithDictionary:responseObject];
+      film = f;
       NSLog(@"\n\nfilms:%@", self.film);
       self.titleLabel.text = self.film.title;
       self.yearLabel.text = self.film.year;
@@ -51,7 +48,7 @@
       self.imdbRatingLabel.text = self.film.imdbRating;
       //Get not-found image:
       if([self.film.posterURL isEqualToString:@"N/A"]){
-        NSString *str = @"https://az853139.vo.msecnd.net/static/images/not-found.png";
+        NSString *str = @"https://filmesonlinegratis.club/uploads/posts/2016-06/1466777116_1459367668_no_poster.png";
         self.film.poster = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:str]];
       }else{
         NSString *str = [self.film.posterURL stringByReplacingOccurrencesOfString:@"http:"
@@ -64,9 +61,18 @@
       [_hud showAnimated:NO];
     }
   }
-    failure:^(NSURLSessionTask *operation, NSError *error) {
-    NSLog(@"Error: %@", error);
-  }];
+    failure:^(NSError *error) {
+    UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"An error has occurred!"
+                                  message:@"Please check your internet connection."
+                                  preferredStyle:UIAlertControllerStyleAlert];
+                                  UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
+                                  handler:^(UIAlertAction * action) {
+                                  [alert dismissViewControllerAnimated:YES completion:nil];
+                                  }];
+                                        
+     [alert addAction:Ok];
+     [self presentViewController:alert animated:YES completion:nil];
+     }];
   //Show loading
   _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
   _hud.label.text = @"Loading";

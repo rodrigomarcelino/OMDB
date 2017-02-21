@@ -73,7 +73,7 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <connections>
-                                    <outlet property="poster" destination="QmE-AR-iqY" id="2u0-JO-aDj"/>
+                                    <outlet property="poster" destination="QmE-AR-iqY" id="bCE-qM-G5F"/>
                                     <outlet property="title" destination="nqg-2t-fVN" id="4WC-7U-xjD"/>
                                     <outlet property="year" destination="OSG-8g-oPW" id="bZd-FW-df1"/>
                                     <segue destination="VPL-Zu-1cf" kind="show" identifier="ShowDetails" id="avE-hn-s4j"/>
@@ -130,13 +130,13 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nna-gT-Djh">
-                                            <rect key="frame" x="137" y="0.0" width="80.5" height="76"/>
+                                            <rect key="frame" x="137" y="0.0" width="48" height="76"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Year" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alg-dd-vke">
-                                            <rect key="frame" x="137" y="76" width="39.5" height="24"/>
+                                            <rect key="frame" x="137" y="76" width="150" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="150" id="R9z-zI-YnR"/>
                                                 <constraint firstAttribute="height" constant="24" id="iNw-az-Map"/>

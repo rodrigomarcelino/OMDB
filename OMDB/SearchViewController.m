@@ -34,8 +34,6 @@
   // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return 1;
 }
@@ -45,23 +43,13 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  
   FilmCell *cell = (FilmCell *)[tableView dequeueReusableCellWithIdentifier:@"FilmCell"];
   Film *film = (self.films)[indexPath.row];
   NSLog(@"\n%@",film.title);
   cell.title.text = film.title;
   cell.year.text = film.year;
-  if([film.posterURL  isEqualToString:@"N/A"])  {
-    // If the film has no picture add not-found image
-    cell.poster.image = [UIImage imageNamed:@"not-found.png"];
-  }else{
-    //exchang every "http:" for "https:"
-    NSString *str = [film.posterURL stringByReplacingOccurrencesOfString:@"http:"
-                                                              withString:@"https:"];
-    NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:str]];
-    cell.poster.image = [UIImage imageWithData: imageData];
+    cell.poster.image = [[FilmManager sharedInstance] imageForKey:film.imdbID];
     cell.poster.contentMode = UIViewContentModeScaleAspectFit;
-  }
   return cell;
 }
 
@@ -75,32 +63,45 @@
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-  
   [mSearchBar resignFirstResponder];
   //exchange every "space" for "+"
   NSString *str = [mSearchBar.text stringByReplacingOccurrencesOfString:@" "
                                                    withString:@"+"];
   _search = str;
-  
   [[FilmManager sharedInstance] getFilmWithName:self.mSearchBar.text ?: @"" success:^(NSMutableArray* films1, int totalpages) {
-    
+    if(totalpages == 0){
+      UIAlertController * alert=   [UIAlertController
+                                    alertControllerWithTitle:@"An error has occurred!"
+                                    message:@"Please check the film name."
+                                    preferredStyle:UIAlertControllerStyleAlert];
+      UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
+                                                 handler:^(UIAlertAction * action) {
+                                                   [alert dismissViewControllerAnimated:YES completion:nil];
+                                                 }];
+      [alert addAction:Ok];
+      [self presentViewController:alert animated:YES completion:nil];
+    }else{
     films = films1;
     _totalPages = totalpages;
     self.currentPage = 1;
-    
     [_mTableView reloadData];
     [_hud hideAnimated:NO];
     [_hud showAnimated:NO];
+    }
     
-  } failure:^(NSError *error) {
-    NSLog(@"Error: %@", error);
+  }failure:^(NSError *error) {
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:@"An error has occurred!"
+                                  message:@"Please check your internet connection."
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action) {
+                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                               }];
+    
+    [alert addAction:Ok];
+    [self presentViewController:alert animated:YES completion:nil];
   }];
-
-  //Show Loading:1
-  _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-  _hud.label.text = @"Loading";
-  [_hud hideAnimated:YES];
-  [_hud showAnimated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -110,23 +111,33 @@
     //Network:
     self.currentPage += 1;
     if(_currentPage<=_totalPages){
-     /* [[FilmManager sharedInstance] getFilmWithPage:_search :_currentPage success:^(NSMutableArray* films1){
-        films = films1;
-      NSLog(@"3\n%@",films);
-        
+      [[FilmManager sharedInstance] getFilmWithPage:_search :_currentPage success:^(NSMutableArray* films1){
+        int i = films1.count;
+        for(int j=0;j<i;j++){
+        [films addObject:films1[j]];
+        }
           [_mTableView reloadData];
           [_hud hideAnimated:NO];
           [_hud showAnimated:NO];
-        
       } failure:^(NSError *error) {
-        NSLog(@"Error: %@", error);
+        UIAlertController * alert=   [UIAlertController
+                                      alertControllerWithTitle:@"An error has occurred!"
+                                      message:@"Please check your internet connection."
+                                      preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action) {
+                                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                                   }];
+        
+        [alert addAction:Ok];
+        [self presentViewController:alert animated:YES completion:nil];
       }];
 
       //Show Loading:
       _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
       _hud.label.text = @"Loading";
       [_hud hideAnimated:YES];
-      [_hud showAnimated:YES];*/
+      [_hud showAnimated:YES];
     }
   }
 }

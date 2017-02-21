@@ -20,6 +20,7 @@
 @property (nonatomic) int totalResults;
 @property (strong, nonatomic) IBOutlet UITableView *mTableView;
 @property (nonatomic, retain) MBProgressHUD *hud;//Manager the loading
+@property (strong, nonatomic) UIImage *imageFromSearchResult;
 
 
 @end
