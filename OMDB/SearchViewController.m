@@ -68,6 +68,11 @@
   NSString *str = [mSearchBar.text stringByReplacingOccurrencesOfString:@" "
                                                    withString:@"+"];
   _search = str;
+  //Show Loading:
+  _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+  _hud.label.text = @"Loading";
+  [_hud hideAnimated:YES];
+  [_hud showAnimated:YES];
   [[FilmManager sharedInstance] getFilmWithName:self.mSearchBar.text ?: @"" success:^(NSMutableArray* films1, int totalpages) {
     if(totalpages == 0){
       UIAlertController * alert=   [UIAlertController
@@ -80,6 +85,10 @@
                                                  }];
       [alert addAction:Ok];
       [self presentViewController:alert animated:YES completion:nil];
+      films = films1;
+      [_mTableView reloadData];
+      [_hud hideAnimated:NO];
+      [_hud showAnimated:NO];
     }else{
     films = films1;
     _totalPages = totalpages;
@@ -102,6 +111,7 @@
     [alert addAction:Ok];
     [self presentViewController:alert animated:YES completion:nil];
   }];
+  
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
