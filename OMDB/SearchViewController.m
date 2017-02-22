@@ -22,6 +22,7 @@
 @synthesize films;
 @synthesize mSearchBar;
 
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   mSearchBar.delegate = self;//Delegate data
@@ -38,7 +39,10 @@
   return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)TableView numberOfRowsInSection:(NSInteger)section {
+  if(self.films.count==0){
+    _TableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+  }
   return self.films.count;
 }
 
@@ -50,6 +54,7 @@
   cell.year.text = film.year;
     cell.poster.image = [[FilmManager sharedInstance] imageForKey:film.imdbID];
     cell.poster.contentMode = UIViewContentModeScaleAspectFit;
+  _TableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
   return cell;
 }
 
@@ -86,14 +91,14 @@
       [alert addAction:Ok];
       [self presentViewController:alert animated:YES completion:nil];
       films = films1;
-      [_mTableView reloadData];
+      [self.TableView reloadData];
       [_hud hideAnimated:NO];
       [_hud showAnimated:NO];
     }else{
     films = films1;
     _totalPages = totalpages;
     self.currentPage = 1;
-    [_mTableView reloadData];
+    [self.TableView reloadData];
     [_hud hideAnimated:NO];
     [_hud showAnimated:NO];
     }
@@ -111,7 +116,6 @@
     [alert addAction:Ok];
     [self presentViewController:alert animated:YES completion:nil];
   }];
-  
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -126,7 +130,7 @@
         for(int j=0;j<i;j++){
         [films addObject:films1[j]];
         }
-          [_mTableView reloadData];
+          [self.TableView reloadData];
           [_hud hideAnimated:NO];
           [_hud showAnimated:NO];
       } failure:^(NSError *error) {
@@ -159,7 +163,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
   //Transfer your information for next screen
   if ([segue.identifier isEqualToString:@"ShowDetails"]) {
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+    NSIndexPath *indexPath = [self.TableView indexPathForSelectedRow];
     DetailsViewController *destViewController = segue.destinationViewController;
     Film *film = (self.films)[indexPath.row];
     destViewController.imdbID = film.imdbID;
