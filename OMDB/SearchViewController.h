@@ -10,15 +10,17 @@
 #import "Film.h"
 #import <MBProgressHUD.h>
 
-@interface SearchViewController : UITableViewController <UISearchBarDelegate,UITableViewDelegate>
+@interface SearchViewController : UIViewController  <UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray *films;
 @property (weak, nonatomic) IBOutlet UISearchBar *mSearchBar;
 @property NSString *search;
 @property (nonatomic) int currentPage;
 @property (nonatomic) int totalPages;
+@property (weak, nonatomic) IBOutlet UITableView *TableView;
+
 @property (nonatomic) int totalResults;
-@property (strong, nonatomic) IBOutlet UITableView *mTableView;
+
 @property (nonatomic, retain) MBProgressHUD *hud;//Manager the loading
 @property (strong, nonatomic) UIImage *imageFromSearchResult;
 

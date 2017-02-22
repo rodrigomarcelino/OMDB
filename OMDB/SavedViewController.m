@@ -42,7 +42,7 @@
   if ([tableDataArray count] > 0)
   {
     //Show cells
-    _mTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    //_mTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     numOfSections                = 1;
     _mTableView.backgroundView = nil;
   }
