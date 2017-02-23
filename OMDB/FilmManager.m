@@ -75,7 +75,7 @@
       
       NSDictionary *resultDictinary = [responseObject objectForKey:@"Search"];
       int totalResults = [[responseObject objectForKey:@"totalResults"] intValue];
-      int totalPages = ceil(totalResults/10);
+      int totalPages = ceil(totalResults/10)+1;
       NSLog(@"\n%@",responseObject);
       for (NSDictionary *filmDictionary in resultDictinary)
       {

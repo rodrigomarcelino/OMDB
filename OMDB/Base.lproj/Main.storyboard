@@ -49,10 +49,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="separator" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zwj-6D-Pqw">
-                                                    <rect key="frame" x="8" y="108" width="73.5" height="1"/>
+                                                    <rect key="frame" x="8" y="108" width="359" height="1"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="1" id="Tj2-pK-ruM"/>
+                                                        <constraint firstAttribute="height" constant="1" id="5pG-4B-hhq"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -67,17 +67,18 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
+                                                <constraint firstItem="zwj-6D-Pqw" firstAttribute="trailing" secondItem="6hk-lm-y0W" secondAttribute="trailing" id="33k-LT-bhe"/>
+                                                <constraint firstItem="zwj-6D-Pqw" firstAttribute="leading" secondItem="I9r-Lb-15U" secondAttribute="leadingMargin" id="BhB-h7-lSD"/>
                                                 <constraint firstItem="Zio-3p-8YL" firstAttribute="top" secondItem="6hk-lm-y0W" secondAttribute="bottom" id="Dks-6T-ocM"/>
                                                 <constraint firstAttribute="bottom" secondItem="BMG-kF-Tyz" secondAttribute="bottom" id="E4h-5y-aIR"/>
-                                                <constraint firstItem="zwj-6D-Pqw" firstAttribute="leading" secondItem="I9r-Lb-15U" secondAttribute="leadingMargin" id="IVW-zc-5QK"/>
                                                 <constraint firstItem="BMG-kF-Tyz" firstAttribute="top" secondItem="I9r-Lb-15U" secondAttribute="top" id="K1F-Np-vfP"/>
                                                 <constraint firstItem="BMG-kF-Tyz" firstAttribute="leading" secondItem="I9r-Lb-15U" secondAttribute="leadingMargin" constant="4" id="LRC-S4-z5J"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="6hk-lm-y0W" secondAttribute="trailing" constant="-33" id="M62-uF-29K"/>
                                                 <constraint firstItem="6hk-lm-y0W" firstAttribute="leading" secondItem="Zio-3p-8YL" secondAttribute="leading" id="YdT-f1-uoD"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="zwj-6D-Pqw" secondAttribute="bottom" constant="-7" id="cLh-cM-2ha"/>
                                                 <constraint firstItem="6hk-lm-y0W" firstAttribute="top" secondItem="BMG-kF-Tyz" secondAttribute="top" id="gDN-oG-0oA"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Zio-3p-8YL" secondAttribute="trailing" constant="32" id="oF9-yb-uGH"/>
                                                 <constraint firstItem="6hk-lm-y0W" firstAttribute="leading" secondItem="BMG-kF-Tyz" secondAttribute="trailing" constant="8" symbolic="YES" id="p6f-6T-dci"/>
+                                                <constraint firstItem="zwj-6D-Pqw" firstAttribute="top" secondItem="Zio-3p-8YL" secondAttribute="bottom" constant="60" id="vDP-ok-xUd"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
