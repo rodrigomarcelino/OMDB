@@ -28,12 +28,15 @@
   mSearchBar.delegate = self;//Delegate data
   self.mSearchBar.placeholder = @"Search films";
   self.currentPage = 0;
+  self.TableView.estimatedRowHeight = 110.0; // for example. Set your average height
+  self.TableView.rowHeight = UITableViewAutomaticDimension;
 }
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
 }
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return 1;
@@ -56,6 +59,11 @@
     cell.poster.contentMode = UIViewContentModeScaleAspectFit;
   _TableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
   return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  // Do some stuff when the row is selected
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
