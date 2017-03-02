@@ -14,7 +14,15 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - FLAnimatedImage (1.0.12)
   - MBProgressHUD (1.0.0)
+  - NYTPhotoViewer (1.1.0):
+    - NYTPhotoViewer/AnimatedGifSupport (= 1.1.0)
+    - NYTPhotoViewer/Core (= 1.1.0)
+  - NYTPhotoViewer/AnimatedGifSupport (1.1.0):
+    - FLAnimatedImage (~> 1.0.8)
+    - NYTPhotoViewer/Core
+  - NYTPhotoViewer/Core (1.1.0)
   - Realm (2.4.2):
     - Realm/Headers (= 2.4.2)
   - Realm/Headers (2.4.2)
@@ -22,13 +30,16 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
   - MBProgressHUD
+  - NYTPhotoViewer (~> 1.1.0)
   - Realm
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  NYTPhotoViewer: e80e8767f3780d2df37c6f72cbab15d6c7232911
   Realm: d27b758e12d62a3371879a065d4c40aa212c5a54
 
-PODFILE CHECKSUM: 82473324f0653b86ab0296f5bc40f9f902921085
+PODFILE CHECKSUM: 74590f5543ce86c632971a9a972f0f8605b16856
 
 COCOAPODS: 1.1.1

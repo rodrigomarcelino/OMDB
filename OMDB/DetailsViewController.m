@@ -10,8 +10,23 @@
 #import "AFNetworking.h"
 #import "RLMFilm.h"
 #import "FilmManager.h"
+#import "NYTPhoto.h"
+
+typedef NS_ENUM(NSUInteger, NYTViewControllerPhotoIndex) {
+  NYTViewControllerPhotoIndexCustomEverything = 1,
+  NYTViewControllerPhotoIndexLongCaption = 2,
+  NYTViewControllerPhotoIndexDefaultLoadingSpinner = 3,
+  NYTViewControllerPhotoIndexNoReferenceView = 4,
+  NYTViewControllerPhotoIndexCustomMaxZoomScale = 5,
+  NYTViewControllerPhotoIndexGif = 6,
+  NYTViewControllerPhotoCount,
+};
+
 
 @interface DetailsViewController ()
+
+@property (weak, nonatomic) IBOutlet UIButton *imageButton;
+@property (nonatomic) NSArray *photos;
 
 @end
 
@@ -84,6 +99,30 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
  }
+
+- (IBAction)imageButtonTapped:(id)sender {
+  
+  self.photos = [[self class] newTestPhotosWithPoster:film];
+  NYTPhotosViewController *photosViewController = [[NYTPhotosViewController alloc] initWithPhotos:_photos  initialPhoto:nil delegate:self];
+  [self presentViewController:photosViewController animated:YES completion:nil];
+}
+
++ (NSArray *)newTestPhotosWithPoster:(Film*)film {
+  NSMutableArray *photos = [NSMutableArray array];
+    NYTPhotoModel *photo = [[NYTPhotoModel alloc] init];
+    UIImage *image = [UIImage imageWithData: film.poster];
+    photo.image = image;
+  
+    NSString *caption = film.title;
+    NSString* credit = film.director;
+    photo.attributedCaptionTitle = [[NSAttributedString alloc] initWithString:@(1).stringValue attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody]}];
+    photo.attributedCaptionSummary = [[NSAttributedString alloc] initWithString:caption attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody]}];
+    photo.attributedCaptionCredit = [[NSAttributedString alloc] initWithString:credit attributes:@{NSForegroundColorAttributeName: [UIColor grayColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1]}];
+    
+    [photos addObject:photo];
+  
+  return photos;
+}
 
 - (IBAction)favorite:(id)sender {
   //If save film is clicked

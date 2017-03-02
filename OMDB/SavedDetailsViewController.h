@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "SavedViewController.h"
+#import "NYTPhotosViewController.h"
+#import "NYTPhotoModel.h"
 
 @interface SavedDetailsViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UIImageView *posterImageView;

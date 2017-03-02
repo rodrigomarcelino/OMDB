@@ -10,6 +10,10 @@
 
 @interface SavedDetailsViewController ()
 
+@property (weak, nonatomic) IBOutlet UIButton *imageButton;
+@property (nonatomic) NSArray *photos;
+
+
 @end
 
 @implementation SavedDetailsViewController
@@ -32,6 +36,29 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)imageButtonTapped:(id)sender {
+  UIImage *image = [UIImage imageWithData: poster];
+  self.photos = [[self class] newTestPhotosWithPoster:image :title :director];
+  NYTPhotosViewController *photosViewController = [[NYTPhotosViewController alloc] initWithPhotos:_photos  initialPhoto:nil delegate:self];
+  [self presentViewController:photosViewController animated:YES completion:nil];
+}
+
++ (NSArray *)newTestPhotosWithPoster:(UIImage*) image :(NSString*) title: (NSString*) director{
+  NSMutableArray *photos = [NSMutableArray array];
+  NYTPhotoModel *photo = [[NYTPhotoModel alloc] init];
+  photo.image = image;
+  
+  NSString *caption = title;
+  NSString* credit = director;
+  photo.attributedCaptionTitle = [[NSAttributedString alloc] initWithString:@(1).stringValue attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody]}];
+  photo.attributedCaptionSummary = [[NSAttributedString alloc] initWithString:caption attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody]}];
+  photo.attributedCaptionCredit = [[NSAttributedString alloc] initWithString:credit attributes:@{NSForegroundColorAttributeName: [UIColor grayColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1]}];
+  
+  [photos addObject:photo];
+  
+  return photos;
 }
 
 #pragma mark - Table view data source

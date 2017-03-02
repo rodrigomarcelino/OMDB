@@ -5,4 +5,5 @@ target ‘OMDB’ do
 pod 'AFNetworking', '~> 3.0'
 pod 'Realm'
 pod 'MBProgressHUD'
+pod 'NYTPhotoViewer', '~> 1.1.0'
 end

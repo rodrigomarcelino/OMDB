@@ -12,8 +12,7 @@
 		E00488321E38E1B50005F33C /* Film.m in Sources */ = {isa = PBXBuildFile; fileRef = E00488311E38E1B50005F33C /* Film.m */; };
 		E00A08D31E42140C0014325C /* RLMFilm.m in Sources */ = {isa = PBXBuildFile; fileRef = E00A08D21E42140C0014325C /* RLMFilm.m */; };
 		E00AB6991E32284800620A5B /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E00AB6981E32284800620A5B /* SearchViewController.m */; };
-		E097D2881E44E56C008E593D /* icon-find.png in Resources */ = {isa = PBXBuildFile; fileRef = E097D2871E44E56C008E593D /* icon-find.png */; };
-		E097D28A1E44E7ED008E593D /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = E097D2891E44E7ED008E593D /* folder.png */; };
+		E02987B11E688A9D004D5CD4 /* NYTPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E02987B01E688A9D004D5CD4 /* NYTPhotoModel.m */; };
 		E09AD5541E3F7D3100E0497E /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E09AD5531E3F7D3100E0497E /* DetailsViewController.m */; };
 		E09AD5571E3F816000E0497E /* SavedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E09AD5561E3F816000E0497E /* SavedViewController.m */; };
 		E0AAAA861E30E356001B3383 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E0AAAA851E30E356001B3383 /* main.m */; };
@@ -37,8 +36,8 @@
 		E00A08D21E42140C0014325C /* RLMFilm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLMFilm.m; sourceTree = "<group>"; };
 		E00AB6971E32284800620A5B /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = OMDB/SearchViewController.h; sourceTree = "<group>"; };
 		E00AB6981E32284800620A5B /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = OMDB/SearchViewController.m; sourceTree = "<group>"; };
-		E097D2871E44E56C008E593D /* icon-find.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-find.png"; sourceTree = "<group>"; };
-		E097D2891E44E7ED008E593D /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
+		E02987AF1E688A9D004D5CD4 /* NYTPhotoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYTPhotoModel.h; sourceTree = "<group>"; };
+		E02987B01E688A9D004D5CD4 /* NYTPhotoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYTPhotoModel.m; sourceTree = "<group>"; };
 		E09AD5521E3F7D3100E0497E /* DetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailsViewController.h; path = OMDB/DetailsViewController.h; sourceTree = "<group>"; };
 		E09AD5531E3F7D3100E0497E /* DetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailsViewController.m; path = OMDB/DetailsViewController.m; sourceTree = "<group>"; };
 		E09AD5551E3F816000E0497E /* SavedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SavedViewController.h; path = OMDB/SavedViewController.h; sourceTree = "<group>"; };
@@ -103,6 +102,8 @@
 				E00A08D21E42140C0014325C /* RLMFilm.m */,
 				E00488301E38E1B50005F33C /* Film.h */,
 				E00488311E38E1B50005F33C /* Film.m */,
+				E02987AF1E688A9D004D5CD4 /* NYTPhotoModel.h */,
+				E02987B01E688A9D004D5CD4 /* NYTPhotoModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -130,7 +131,6 @@
 			children = (
 				E0E9E1FA1E549E130069AEC4 /* Service */,
 				E0E9E1F91E549E070069AEC4 /* StoryBoards */,
-				E0E9E1F81E549DFB0069AEC4 /* Images */,
 				E09D44441E44B207006F1563 /* Model */,
 				E09D44431E44B1CA006F1563 /* Controller */,
 				E0AAAA841E30E356001B3383 /* Supporting Files */,
@@ -148,15 +148,6 @@
 				E0AAAA851E30E356001B3383 /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		E0E9E1F81E549DFB0069AEC4 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				E097D2891E44E7ED008E593D /* folder.png */,
-				E097D2871E44E56C008E593D /* icon-find.png */,
-			);
-			name = Images;
 			sourceTree = "<group>";
 		};
 		E0E9E1F91E549E070069AEC4 /* StoryBoards */ = {
@@ -249,9 +240,7 @@
 			files = (
 				E0AAAA941E30E356001B3383 /* LaunchScreen.storyboard in Resources */,
 				E0AAAA911E30E356001B3383 /* Assets.xcassets in Resources */,
-				E097D2881E44E56C008E593D /* icon-find.png in Resources */,
 				E0AAAA8F1E30E356001B3383 /* Main.storyboard in Resources */,
-				E097D28A1E44E7ED008E593D /* folder.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +305,7 @@
 				E0AAAA891E30E356001B3383 /* AppDelegate.m in Sources */,
 				E0E9E2021E549E620069AEC4 /* FilmManager.m in Sources */,
 				E0AF3EEA1E4368E700BFF4B0 /* SavedDetailsViewController.m in Sources */,
+				E02987B11E688A9D004D5CD4 /* NYTPhotoModel.m in Sources */,
 				E00488321E38E1B50005F33C /* Film.m in Sources */,
 				E00AB6991E32284800620A5B /* SearchViewController.m in Sources */,
 				E0AAAA861E30E356001B3383 /* main.m in Sources */,

@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "Film.h"
 #import <MBProgressHUD.h>
+#import "NYTPhotosViewController.h"
+#import "NYTPhotoModel.h"
 
-@interface DetailsViewController : UITableViewController
+@interface DetailsViewController : UITableViewController <NYTPhotosViewControllerDelegate>
 
 @property (nonatomic, strong) NSString *imdbID;
 @property (weak, nonatomic) IBOutlet UILabel *yearLabel;
