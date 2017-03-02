@@ -88,16 +88,7 @@
   [_hud showAnimated:YES];
   [[FilmManager sharedInstance] getFilmWithName:self.mSearchBar.text ?: @"" success:^(NSMutableArray* films1, int totalpages) {
     if(totalpages == 0){
-      UIAlertController * alert=   [UIAlertController
-                                    alertControllerWithTitle:@"An error has occurred!"
-                                    message:@"Please check the film name."
-                                    preferredStyle:UIAlertControllerStyleAlert];
-      UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
-                                                 handler:^(UIAlertAction * action) {
-                                                   [alert dismissViewControllerAnimated:YES completion:nil];
-                                                 }];
-      [alert addAction:Ok];
-      [self presentViewController:alert animated:YES completion:nil];
+      [self alert];
       films = films1;
       [self.TableView reloadData];
       [_hud hideAnimated:NO];
@@ -112,17 +103,7 @@
     }
     
   }failure:^(NSError *error) {
-    UIAlertController * alert=   [UIAlertController
-                                  alertControllerWithTitle:@"An error has occurred!"
-                                  message:@"Please check your internet connection."
-                                  preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
-                                               handler:^(UIAlertAction * action) {
-                                                 [alert dismissViewControllerAnimated:YES completion:nil];
-                                               }];
-    
-    [alert addAction:Ok];
-    [self presentViewController:alert animated:YES completion:nil];
+    [self errorAlert];
   }];
 }
 
@@ -142,17 +123,7 @@
           [_hud hideAnimated:NO];
           [_hud showAnimated:NO];
       } failure:^(NSError *error) {
-        UIAlertController * alert=   [UIAlertController
-                                      alertControllerWithTitle:@"An error has occurred!"
-                                      message:@"Please check your internet connection."
-                                      preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
-                                                   handler:^(UIAlertAction * action) {
-                                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                                   }];
-        
-        [alert addAction:Ok];
-        [self presentViewController:alert animated:YES completion:nil];
+        [self errorAlert];
       }];
 
       //Show Loading:
@@ -178,4 +149,33 @@
   }
 }
 
+-(void) errorAlert{
+  //Show
+  UIAlertController * alert=   [UIAlertController
+                                alertControllerWithTitle:@"An error has occurred!"
+                                message:@"Please check your internet connection."
+                                preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
+                                             handler:^(UIAlertAction * action){
+                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+  [alert addAction:Ok];
+  [self presentViewController:alert animated:YES completion:nil];
+  
+}
+
+-(void) alert{
+  //Show
+  UIAlertController * alert=   [UIAlertController
+                                alertControllerWithTitle:@"An error has occurred!"
+                                message:@"Please check the film name."
+                                preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
+                                             handler:^(UIAlertAction * action){
+                                               [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+  [alert addAction:Ok];
+  [self presentViewController:alert animated:YES completion:nil];
+  
+}
 @end

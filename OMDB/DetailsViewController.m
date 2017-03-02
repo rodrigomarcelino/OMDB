@@ -39,16 +39,7 @@ typedef NS_ENUM(NSUInteger, NYTViewControllerPhotoIndex) {
   NSLog(@"\n\nID: %@\n\n", imdbID);
   [[FilmManager sharedInstance] getFilmWithID:imdbID success:^(Film* f) {
     if (f==NULL) {
-      UIAlertController * alert=   [UIAlertController
-                                    alertControllerWithTitle:@"An error has occurred!"
-                                    message:@"Please check your internet connection."
-                                    preferredStyle:UIAlertControllerStyleAlert];
-      UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
-                                                 handler:^(UIAlertAction * action) {
-                                                   [alert dismissViewControllerAnimated:YES completion:nil];
-                                                 }];
-      [alert addAction:Ok];
-      [self presentViewController:alert animated:YES completion:nil];
+      [self errorAlert];
     } else {
       film = f;
       NSLog(@"\n\nfilms:%@", self.film);
@@ -77,16 +68,7 @@ typedef NS_ENUM(NSUInteger, NYTViewControllerPhotoIndex) {
     }
   }
     failure:^(NSError *error) {
-    UIAlertController * alert=   [UIAlertController alertControllerWithTitle:@"An error has occurred!"
-                                  message:@"Please check your internet connection."
-                                  preferredStyle:UIAlertControllerStyleAlert];
-                                  UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
-                                  handler:^(UIAlertAction * action) {
-                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                  }];
-                                        
-     [alert addAction:Ok];
-     [self presentViewController:alert animated:YES completion:nil];
+    [self errorAlert];
      }];
   //Show loading
   _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -168,6 +150,21 @@ typedef NS_ENUM(NSUInteger, NYTViewControllerPhotoIndex) {
     //If film is not already saved
     [self.navigationController popViewControllerAnimated:YES];
   }
+}
+
+-(void) errorAlert{
+  //Show
+  UIAlertController * alert=   [UIAlertController
+                                alertControllerWithTitle:@"An error has occurred!"
+                                message:@"Please check your internet connection."
+                                preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction* Ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault
+                                             handler:^(UIAlertAction * action){
+                                               [alert dismissViewControllerAnimated:YES completion:nil];
+                                             }];
+  [alert addAction:Ok];
+  [self presentViewController:alert animated:YES completion:nil];
+  
 }
 
 @end

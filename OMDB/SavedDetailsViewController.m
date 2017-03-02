@@ -18,6 +18,9 @@
 
 @implementation SavedDetailsViewController
 @synthesize title, year, rated, runtime, genre, director, plot, poster, imdbRating, imdbID, type;
+
+#pragma mark - Load film
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -37,6 +40,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Open poster image details
 
 - (IBAction)imageButtonTapped:(id)sender {
   UIImage *image = [UIImage imageWithData: poster];
@@ -61,7 +66,7 @@
   return photos;
 }
 
-#pragma mark - Table view data source
+#pragma mark - Delete Film
 
 - (IBAction)deleteFilm:(id)sender {
   UIAlertController * alert=   [UIAlertController

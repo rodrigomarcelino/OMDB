@@ -9,21 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface Film : NSObject
-{
-  NSString *title;
-  NSString *year;
-  NSString *rated;
-  NSString *runtime;
-  NSString *genre;
-  NSString *director;
-  NSString *plot;
-  NSString *posterURL;
-  NSData *poster;
-  NSString *imdbRating;
-  NSString *imdbId;
-  NSString *type;
-  
-}
 
 @property(nonatomic, strong) NSString *title;
 @property(nonatomic, strong) NSString *year;

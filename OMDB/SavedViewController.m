@@ -16,6 +16,8 @@
 
 @implementation SavedViewController
 
+#pragma mark - Load saved films cells
+
 -(void)viewDidAppear:(BOOL)animated{
   [_mTableView reloadData];//Update table View whenever you open the screen
 }
@@ -36,6 +38,7 @@
 }
 
 #pragma mark - Table view data source
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   // Manager the number of sections in the application
   NSInteger numOfSections = 0;
@@ -88,12 +91,6 @@
   cell.year.text=information.year;
   cell.poster.image = [UIImage imageWithData:information.poster];
   cell.poster.contentMode = UIViewContentModeScaleAspectFit;
-  //Toggles cell color
-  /*if(indexPath.row%2==0){
-    cell.backgroundColor = [cell.backgroundColor colorWithAlphaComponent:0.2];
-  }else{
-    cell.backgroundColor = [cell.backgroundColor colorWithAlphaComponent:0];
-  }*/
   return cell;
 }
 
@@ -107,9 +104,10 @@
   [realm commitWriteTransaction];
   [_mTableView reloadData];
 }
-#pragma mark - Navigation
+
+#pragma mark - Send informations to details
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  //Transfer your information for next screen
   if ([segue.identifier isEqualToString:@"SavedDetais"]) {
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
     SavedDetailsViewController *destViewController = segue.destinationViewController;

@@ -408,11 +408,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OMDB/SearchViewController.m"
-            timestampString = "509636633.808465"
+            timestampString = "510172366.892408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "-tableView:willDisplayCell:forRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -456,11 +456,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OMDB/SearchViewController.m"
-            timestampString = "509636633.808465"
+            timestampString = "510172366.892408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "-searchBarSearchButtonClicked:"
             landmarkType = "7">
             <Locations>
@@ -680,11 +680,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OMDB/SearchViewController.m"
-            timestampString = "509636633.808465"
+            timestampString = "510172366.892408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "-searchBarSearchButtonClicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -712,11 +712,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OMDB/SearchViewController.m"
-            timestampString = "509636633.808465"
+            timestampString = "510172366.892408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "-searchBarSearchButtonClicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -744,11 +744,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OMDB/SearchViewController.m"
-            timestampString = "509636633.808465"
+            timestampString = "510172366.892408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "-tableView:willDisplayCell:forRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -776,7 +776,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OMDB/SearchViewController.m"
-            timestampString = "509636633.808465"
+            timestampString = "510172366.892408"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "-searchBarSearchButtonClicked:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OMDB/SearchViewController.m"
+            timestampString = "510172366.892408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "102"
@@ -792,27 +808,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OMDB/SearchViewController.m"
-            timestampString = "509636633.808465"
+            timestampString = "510172366.892408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "-searchBarSearchButtonClicked:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "OMDB/SearchViewController.m"
-            timestampString = "509636633.808465"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "-searchBarSearchButtonClicked:"
             landmarkType = "7">
             <Locations>
@@ -871,11 +871,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OMDB/SearchViewController.m"
-            timestampString = "509636633.808465"
+            timestampString = "510172366.892408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "-searchBarSearchButtonClicked:"
             landmarkType = "7">
             <Locations>
@@ -964,11 +964,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OMDB/SearchViewController.m"
-            timestampString = "509636633.808465"
+            timestampString = "510172366.892408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
             landmarkName = "-searchBarSearchButtonClicked:"
             landmarkType = "7">
          </BreakpointContent>
