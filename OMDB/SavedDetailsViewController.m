@@ -45,19 +45,20 @@
 
 - (IBAction)imageButtonTapped:(id)sender {
   UIImage *image = [UIImage imageWithData: poster];
-  self.photos = [[self class] newTestPhotosWithPoster:image :title :director];
+  self.photos = [[self class] newTestPhotosWithPoster:image :title :director :type];
   NYTPhotosViewController *photosViewController = [[NYTPhotosViewController alloc] initWithPhotos:_photos  initialPhoto:nil delegate:self];
   [self presentViewController:photosViewController animated:YES completion:nil];
 }
 
-+ (NSArray *)newTestPhotosWithPoster:(UIImage*) image :(NSString*) title: (NSString*) director{
++ (NSArray *)newTestPhotosWithPoster:(UIImage*) image :(NSString*) title: (NSString*) director: (NSString*) type{
   NSMutableArray *photos = [NSMutableArray array];
   NYTPhotoModel *photo = [[NYTPhotoModel alloc] init];
   photo.image = image;
   
+  NSString *top = type;
   NSString *caption = title;
-  NSString* credit = director;
-  photo.attributedCaptionTitle = [[NSAttributedString alloc] initWithString:@(1).stringValue attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody]}];
+  NSString* credit = [NSString stringWithFormat:@"Director: %@",director];
+  photo.attributedCaptionTitle = [[NSAttributedString alloc] initWithString:top attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody]}];
   photo.attributedCaptionSummary = [[NSAttributedString alloc] initWithString:caption attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody]}];
   photo.attributedCaptionCredit = [[NSAttributedString alloc] initWithString:credit attributes:@{NSForegroundColorAttributeName: [UIColor grayColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1]}];
   

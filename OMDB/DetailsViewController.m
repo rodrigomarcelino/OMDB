@@ -12,17 +12,6 @@
 #import "FilmManager.h"
 #import "NYTPhoto.h"
 
-typedef NS_ENUM(NSUInteger, NYTViewControllerPhotoIndex) {
-  NYTViewControllerPhotoIndexCustomEverything = 1,
-  NYTViewControllerPhotoIndexLongCaption = 2,
-  NYTViewControllerPhotoIndexDefaultLoadingSpinner = 3,
-  NYTViewControllerPhotoIndexNoReferenceView = 4,
-  NYTViewControllerPhotoIndexCustomMaxZoomScale = 5,
-  NYTViewControllerPhotoIndexGif = 6,
-  NYTViewControllerPhotoCount,
-};
-
-
 @interface DetailsViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *imageButton;
@@ -37,11 +26,11 @@ typedef NS_ENUM(NSUInteger, NYTViewControllerPhotoIndex) {
 - (void)viewDidLoad {
     [super viewDidLoad];
   NSLog(@"\n\nID: %@\n\n", imdbID);
-  [[FilmManager sharedInstance] getFilmWithID:imdbID success:^(Film* f) {
-    if (f==NULL) {
+  [[FilmManager sharedInstance] getFilmWithID:imdbID success:^(Film* filmaux) {
+    if (filmaux==NULL) {
       [self errorAlert];
     } else {
-      film = f;
+      film = filmaux;
       NSLog(@"\n\nfilms:%@", self.film);
       self.titleLabel.text = self.film.title;
       self.yearLabel.text = self.film.year;
@@ -95,9 +84,10 @@ typedef NS_ENUM(NSUInteger, NYTViewControllerPhotoIndex) {
     UIImage *image = [UIImage imageWithData: film.poster];
     photo.image = image;
   
+    NSString* type = film.type;
     NSString *caption = film.title;
-    NSString* credit = film.director;
-    photo.attributedCaptionTitle = [[NSAttributedString alloc] initWithString:@(1).stringValue attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody]}];
+  NSString* credit = [NSString stringWithFormat:@"Director: %@",film.director];
+    photo.attributedCaptionTitle = [[NSAttributedString alloc] initWithString:type attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody]}];
     photo.attributedCaptionSummary = [[NSAttributedString alloc] initWithString:caption attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody]}];
     photo.attributedCaptionCredit = [[NSAttributedString alloc] initWithString:credit attributes:@{NSForegroundColorAttributeName: [UIColor grayColor], NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1]}];
     
@@ -114,7 +104,7 @@ typedef NS_ENUM(NSUInteger, NYTViewControllerPhotoIndex) {
                                 preferredStyle:UIAlertControllerStyleAlert];
   UIAlertAction* save = [UIAlertAction actionWithTitle:@"Save" style:UIAlertActionStyleDefault
                                                handler:^(UIAlertAction * action) {
-                                      NSUInteger i=  [[FilmManager sharedInstance] Favorite:film];
+                                      NSUInteger i=  [[FilmManager sharedInstance] favoriteSave:film];
                                                  // Check if the film is already saved
                                                  if(i==1){
                                                   [self back:1];

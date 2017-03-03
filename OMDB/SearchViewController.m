@@ -20,16 +20,16 @@
 
 @implementation SearchViewController
 @synthesize films;
-@synthesize mSearchBar;
+@synthesize searchBar;
 
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  mSearchBar.delegate = self;//Delegate data
-  self.mSearchBar.placeholder = @"Search films";
+  searchBar.delegate = self;//Delegate data
+  self.searchBar.placeholder = @"Search films";
   self.currentPage = 0;
-  self.TableView.estimatedRowHeight = 110.0; // for example. Set your average height
-  self.TableView.rowHeight = UITableViewAutomaticDimension;
+  self.tableView.estimatedRowHeight = 110.0;
+  self.tableView.rowHeight = UITableViewAutomaticDimension;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,7 +44,7 @@
 
 - (NSInteger)tableView:(UITableView *)TableView numberOfRowsInSection:(NSInteger)section {
   if(self.films.count==0){
-    _TableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
   }
   return self.films.count;
 }
@@ -57,7 +57,7 @@
   cell.year.text = film.year;
     cell.poster.image = [[FilmManager sharedInstance] imageForKey:film.imdbID];
     cell.poster.contentMode = UIViewContentModeScaleAspectFit;
-  _TableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+  _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
   return cell;
 }
 
@@ -67,18 +67,18 @@
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-  mSearchBar.showsCancelButton = true;
+  self.searchBar.showsCancelButton = true;
 }
 
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
-  [searchBar setShowsCancelButton:NO animated:YES];
+  [self.searchBar setShowsCancelButton:NO animated:YES];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-  [mSearchBar resignFirstResponder];
+  [self.searchBar resignFirstResponder];
   //exchange every "space" for "+"
-  NSString *str = [mSearchBar.text stringByReplacingOccurrencesOfString:@" "
+  NSString *str = [self.searchBar.text stringByReplacingOccurrencesOfString:@" "
                                                    withString:@"+"];
   _search = str;
   //Show Loading:
@@ -86,18 +86,18 @@
   _hud.label.text = @"Loading";
   [_hud hideAnimated:YES];
   [_hud showAnimated:YES];
-  [[FilmManager sharedInstance] getFilmWithName:self.mSearchBar.text ?: @"" success:^(NSMutableArray* films1, int totalpages) {
-    if(totalpages == 0){
+  [[FilmManager sharedInstance] getFilmWithName:self.searchBar.text ?: @"" success:^(NSMutableArray* filmsaux, int totalPages) {
+    if(totalPages == 0){
       [self alert];
-      films = films1;
-      [self.TableView reloadData];
+      films = filmsaux;
+      [self.tableView reloadData];
       [_hud hideAnimated:NO];
       [_hud showAnimated:NO];
     }else{
-    films = films1;
-    _totalPages = totalpages;
+    films = filmsaux;
+    _totalPages = totalPages;
     self.currentPage = 1;
-    [self.TableView reloadData];
+    [self.tableView reloadData];
     [_hud hideAnimated:NO];
     [_hud showAnimated:NO];
     }
@@ -114,12 +114,9 @@
     //Network:
     self.currentPage += 1;
     if(_currentPage<=_totalPages){
-      [[FilmManager sharedInstance] getFilmWithPage:_search :_currentPage success:^(NSMutableArray* films1){
-        int i = films1.count;
-        for(int j=0;j<i;j++){
-        [films addObject:films1[j]];
-        }
-          [self.TableView reloadData];
+      [[FilmManager sharedInstance] getFilmWithPage:_search :_currentPage success:^(NSMutableArray* auxfilms){
+        [films addObjectsFromArray:auxfilms];
+          [self.tableView reloadData];
           [_hud hideAnimated:NO];
           [_hud showAnimated:NO];
       } failure:^(NSError *error) {
@@ -136,13 +133,13 @@
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-  [searchBar resignFirstResponder];
+  [self.searchBar resignFirstResponder];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
   //Transfer your information for next screen
   if ([segue.identifier isEqualToString:@"ShowDetails"]) {
-    NSIndexPath *indexPath = [self.TableView indexPathForSelectedRow];
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
     DetailsViewController *destViewController = segue.destinationViewController;
     Film *film = (self.films)[indexPath.row];
     destViewController.imdbID = film.imdbID;

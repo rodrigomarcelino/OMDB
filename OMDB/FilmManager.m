@@ -16,7 +16,7 @@
   if(!self) return nil;
   
   _films = [[NSMutableArray alloc] init];
-  _movieImages = [[NSMutableDictionary alloc] init];
+  _filmsImages = [[NSMutableDictionary alloc] init];
   
   return self;
 }
@@ -30,7 +30,7 @@
   return _sharedInstance;
 }
 
-- (int)Favorite:(Film *)film {
+- (int)favoriteSave:(Film *)film {
   RLMRealm *realm = [RLMRealm defaultRealm];
   RLMFilm *information = [[RLMFilm alloc] init];
   information.title=film.title;
@@ -43,9 +43,9 @@
   information.runtime=film.runtime;
   information.imdbID=film.imdbID;
   information.poster = film.poster;
-  RLMResults<RLMFilm *> *someDogs = [RLMFilm objectsWhere:@"imdbID = %@",film.imdbID];
+  RLMResults<RLMFilm *> *check = [RLMFilm objectsWhere:@"imdbID = %@",film.imdbID];
   // Check if the film is already saved
-  if(someDogs.firstObject == nil){
+  if(check.firstObject == nil){
     [realm beginWriteTransaction];
     [realm addObject:information];
     [realm commitWriteTransaction];
@@ -56,7 +56,7 @@
   return 0;
 }
 
-- (NSURLSessionDataTask *)getFilmWithName:(NSString *)title success:(void (^)(NSMutableArray* f, int pages))success failure:(void (^)(NSError *error))failure {
+- (NSURLSessionDataTask *)getFilmWithName:(NSString *)title success:(void (^)(NSMutableArray* films, int totalPages))success failure:(void (^)(NSError *error))failure {
   //exchange every "space" for "+"
   NSString *str = [title stringByReplacingOccurrencesOfString:@" "
                                                    withString:@"+"];
@@ -83,13 +83,13 @@
         if([newFilm.posterURL  isEqualToString:@"N/A"])  {
           // If the film has no picture add not-found image
         UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://filmesonlinegratis.club/uploads/posts/2016-06/1466777116_1459367668_no_poster.png"]]];
-          [_movieImages setObject:image forKey:newFilm.imdbID];
+          [_filmsImages setObject:image forKey:newFilm.imdbID];
         }else{
           //exchang every "http:" for "https:"
           NSString *str = [newFilm.posterURL stringByReplacingOccurrencesOfString:@"http:"
                                                                        withString:@"https:"];
           UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:str]]];
-          [_movieImages setObject:image forKey:newFilm.imdbID];
+          [_filmsImages setObject:image forKey:newFilm.imdbID];
         }
         [_films addObject:newFilm];
       }
@@ -102,7 +102,7 @@
        }];
 }
 
-- (NSURLSessionDataTask *)getFilmWithPage:(NSString *)title :(int)currentPage success:(void (^)(NSMutableArray* f))success failure:(void (^)(NSError *error))failure {
+- (NSURLSessionDataTask *)getFilmWithPage:(NSString *)title :(int)currentPage success:(void (^)(NSMutableArray* films))success failure:(void (^)(NSError *error))failure {
   NSString *link = [NSString stringWithFormat:@"https://www.omdbapi.com/?s=%@&page=%d",title,currentPage];
   
   NSURL *URL = [NSURL URLWithString:link];
@@ -122,14 +122,14 @@
         if([newFilm.posterURL  isEqualToString:@"N/A"])  {
           // If the film has no picture add not-found image
           UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://filmesonlinegratis.club/uploads/posts/2016-06/1466777116_1459367668_no_poster.png"]]];
-          [_movieImages setObject:image forKey:newFilm.imdbID];
+          [_filmsImages setObject:image forKey:newFilm.imdbID];
         }else{
           //exchang every "http:" for "https:"
           NSString *str = [newFilm.posterURL stringByReplacingOccurrencesOfString:@"http:"
                                                                     withString:@"https:"];
           
           UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:str]]];
-          [_movieImages setObject:image forKey:newFilm.imdbID];
+          [_filmsImages setObject:image forKey:newFilm.imdbID];
         }
         [_films addObject:newFilm];
       }
@@ -144,10 +144,10 @@
 
 // Returns an image for the given key
 - (UIImage*)imageForKey:(NSString*)imdbID{
-  return [_movieImages objectForKey:imdbID];
+  return [_filmsImages objectForKey:imdbID];
 }
 
-- (NSURLSessionDataTask *)getFilmWithID:(NSString *)imdbID success:(void (^)(Film* f))success failure:(void (^)(NSError *error))failure{
+- (NSURLSessionDataTask *)getFilmWithID:(NSString *)imdbID success:(void (^)(Film* films))success failure:(void (^)(NSError *error))failure{
       NSString *link = [NSString stringWithFormat:@"https://www.omdbapi.com/?i=%@&plot=short&r=json",imdbID];
       NSURL *URL = [NSURL URLWithString:link];
       AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];

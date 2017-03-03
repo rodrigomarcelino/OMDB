@@ -16,13 +16,13 @@
 @interface FilmManager : NSObject
 
 @property (strong) NSMutableArray *films;
-@property (strong) NSMutableDictionary *movieImages;
+@property (strong) NSMutableDictionary *filmsImages;
 
 + (id)sharedInstance;
-- (int)Favorite:(Film *)film;
-- (NSURLSessionDataTask *)getFilmWithName:(NSString *)title success:(void (^)(NSMutableArray* films, int totalpages))success failure:(void (^)(NSError *error))failure;
-- (NSURLSessionDataTask *)getFilmWithPage:(NSString *)title :(int)actualpage success:(void (^)(NSMutableArray* f))success failure:(void (^)(NSError *error))failure;
+- (int)favoriteSave:(Film *)film;
+- (NSURLSessionDataTask *)getFilmWithName:(NSString *)title success:(void (^)(NSMutableArray* films, int totalPages))success failure:(void (^)(NSError *error))failure;
+- (NSURLSessionDataTask *)getFilmWithPage:(NSString *)title :(int)actualPage success:(void (^)(NSMutableArray* films))success failure:(void (^)(NSError *error))failure;
 - (UIImage*)imageForKey:(NSString*)imdbID;
-- (NSURLSessionDataTask *)getFilmWithID:(NSString *)imdbID success:(void (^)(Film* f))success failure:(void (^)(NSError *error))failure;
+- (NSURLSessionDataTask *)getFilmWithID:(NSString *)imdbID success:(void (^)(Film* films))success failure:(void (^)(NSError *error))failure;
 
 @end

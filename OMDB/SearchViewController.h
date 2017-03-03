@@ -13,11 +13,11 @@
 @interface SearchViewController : UIViewController  <UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray *films;
-@property (weak, nonatomic) IBOutlet UISearchBar *mSearchBar;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property NSString *search;
 @property (nonatomic) int currentPage;
 @property (nonatomic) int totalPages;
-@property (weak, nonatomic) IBOutlet UITableView *TableView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic) int totalResults;
 
